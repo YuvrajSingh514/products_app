@@ -23,39 +23,38 @@ class _ProductsCardState extends State<ProductsCard> {
           if (state is ProductsLoadingState) {
             return Center(child: CircularProgressIndicator());
           } else if (state is ProductsLoadedState) {
-            return SizedBox(
-              height: 100,
-              width: 100,
-
-              child: GridView.builder(
-                itemCount: state.productsList.length,
-                scrollDirection: Axis.vertical,
-
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                ),
-                itemBuilder: (context, index) {
-                  return Card(
-                    elevation: 8,
-                    shadowColor: Colors.black,
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Column(
-                      children: [
-                        CircleAvatar(
-                          backgroundImage: NetworkImage(
-                            state.productsList[index].thumbnail.toString(),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
+            return GridView.builder(
+              itemCount: state.productsList.length,
+              scrollDirection: Axis.vertical,
+              shrinkWrap: true,
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
               ),
+              itemBuilder: (context, index) {
+                return Card(
+                  elevation: 8,
+                  shadowColor: Colors.black,
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    children: [
+                      CircleAvatar(
+                        backgroundImage: NetworkImage(
+                          state.productsList[index].thumbnail.toString(),
+                        ),
+                      ),
+                      SizedBox(height: 5,),
+                      Text(state.productsList[index].title!),
+                      SizedBox(height: 5,),
+                      Text(state.productsList[index].brand!)
+                    ],
+                  ),
+                );
+              },
             );
           } else if (state is ProductsErrorState) {
             return Center(child: Text(state.error));
